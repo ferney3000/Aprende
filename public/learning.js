@@ -1,3 +1,4 @@
+import { LEVELS, getLevel } from './levels.js';
 export const SUBJECTS = { math: 'Matemáticas', reading: 'Lectura', english: 'Inglés' };
 export const LIMITS = [10, 20, 50];
 const stories = [
@@ -45,16 +46,17 @@ export function createQuestion(subject, difficulty = 0, index = 0, rng = Math.ra
   return { subject: 'english', text: word, prompt: `¿Qué significa “${word}” en español?`, answer, choices: shuffle([answer, ...distractors], rng), hint, explanation: `“${word}” significa “${answer}”. ¡Una nueva palabra para tu aventura!` };
 }
 export function newProgress() {
-  return { version: 1, stars: 0, level: 1, difficulty: 0, streak: 0, subjects: Object.fromEntries(Object.keys(SUBJECTS).map(key => [key, { completed: 0, attempts: 0, firstTry: 0 }])) };
+  return { version: 2, stars: 0, level: 1, completedLevels: 0, difficulty: 0, streak: 0, subjects: Object.fromEntries(Object.keys(SUBJECTS).map(key => [key, { completed: 0, attempts: 0, firstTry: 0 }])) };
 }
 const count = (value, fallback = 0) => Number.isSafeInteger(value) && value >= 0 && value <= 1e7 ? value : fallback;
 export function restoreProgress(raw) {
   try {
     const source = JSON.parse(raw);
-    if (source?.version !== 1) return newProgress();
+    if (![1, 2].includes(source?.version)) return newProgress();
     const clean = newProgress();
     clean.stars = count(source.stars);
-    clean.level = Math.max(1, count(source.level, 1));
+    clean.completedLevels = source.version === 1 ? Math.min(9, Math.max(0, count(source.level, 1) - 1)) : Math.min(LEVELS.length, count(source.completedLevels));
+    clean.level = Math.min(LEVELS.length, clean.completedLevels + 1);
     clean.difficulty = Math.min(2, count(source.difficulty));
     clean.streak = Math.min(2, count(source.streak));
     for (const key of Object.keys(SUBJECTS)) {
@@ -63,6 +65,26 @@ export function restoreProgress(raw) {
     }
     return clean;
   } catch { return newProgress(); }
+}
+export function completeLevel(progress, id) {
+  if (id !== progress.completedLevels + 1 || id > LEVELS.length) return false;
+  progress.completedLevels = id;
+  progress.level = Math.min(LEVELS.length, id + 1);
+  return true;
+}
+export function createLevelQuestion(levelId, stage = 0, rng = Math.random) {
+  const task = getLevel(levelId).challenges[stage];
+  if (!task) throw new RangeError('No existe ese reto del nivel.');
+  if (task.subject !== 'math') return { ...task, answer: task.choices[0], choices: shuffle(task.choices, rng), explanation: task.explanation || `¡Eso es! ${task.choices[0]}. Encontraste la pista en la historia.` };
+  const a = 1 + Math.floor(rng() * (task.limit - 1));
+  const b = 1 + Math.floor(rng() * (task.limit - a));
+  const total = a + b, answer = task.kind === 'missing' ? b : total;
+  const choices = new Set([answer]);
+  for (const delta of [1, -1, 2, -2, 3, -3]) { if (answer + delta >= 0 && answer + delta <= task.limit) choices.add(answer + delta); if (choices.size === 4) break; }
+  const base = { subject: 'math', answer: String(answer), choices: shuffle([...choices].map(String), rng), explanation: `${a} más ${b} son ${total}. ¡El bosque sigue brillando!`, hint: `Empieza en ${a} y cuenta ${b} pasos más para llegar a ${total}.` };
+  if (task.kind === 'story') return { ...base, format: 'story', text: `Santiago encuentra ${a} estrellas junto al árbol. Su amiga trae ${b} estrellas más.`, prompt: '¿Cuántas estrellas tienen entre los dos?', hint: `Junta los dos grupos: ${a} + ${b}. Puedes contar desde ${a}.` };
+  if (task.kind === 'missing') return { ...base, text: `${a} + ? = ${total}`, prompt: '¿Qué número falta para encender el cristal?', hint: `Cuenta desde ${a} hasta ${total}. ¿Cuántos pasos necesitas?` };
+  return { ...base, text: `${a} + ${b} = ?`, prompt: '¿Cuántas estrellas hay en total?' };
 }
 export function recordAnswer(progress, subject, correct, mistakes) {
   const stat = progress.subjects[subject];

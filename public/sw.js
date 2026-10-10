@@ -1,5 +1,5 @@
-const CACHE = 'santiago-v1';
-const ASSETS = ['/', '/index.html', '/style.css', '/app.js', '/learning.js', '/game.js', '/forest.svg', '/icon.svg', '/manifest.webmanifest'];
+const CACHE = 'santiago-v2-levels';
+const ASSETS = ['/', '/index.html', '/style.css', '/app.js', '/learning.js', '/levels.js', '/game.js', '/forest.svg', '/icon.svg', '/manifest.webmanifest'];
 self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))); });
 self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('santiago-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', event => {

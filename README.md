@@ -1,0 +1,39 @@
+# Las aventuras de Santiago
+
+Primera versión de una aplicación web para jugar y aprender: una nave recorre el bosque, recoge estrellas y evita rocas. Al quedarse sin energía o terminar un recorrido, una misión de matemáticas, lectura o inglés permite continuar. Los errores muestran pistas y no quitan estrellas.
+
+## Ejecutar
+
+Requiere Node.js 20 o posterior. La aplicación no necesita dependencias de producción, servicios externos, cuentas ni claves.
+
+```sh
+cd /workspace/Aprende
+npm start
+```
+
+El servidor usa el puerto 3000, configurable con `PORT`. Sirve exclusivamente la carpeta `public`. Se puede desplegar esa carpeta directamente en cualquier alojamiento web estático con HTTPS. No hay paso de compilación.
+
+## Validar
+
+```sh
+npm ci --ignore-scripts
+npm test
+npm run test:e2e
+```
+
+Las pruebas de navegador usan Chromium en `/usr/bin/chromium`. Para otra instalación, define `CHROMIUM_PATH` con la ruta a su ejecutable. Playwright inicia el servidor si no está ya disponible. Las pruebas cubren respuestas, pistas, progresión, pausas, niveles, persistencia, modo sin conexión y pantalla de celular.
+
+## Aprendizaje y privacidad
+
+- Sumas con resultados hasta 10, 20 o 50. Tres respuestas consecutivas al primer intento aumentan la dificultad; dos errores en un ejercicio la reducen. El espacio de familia permite elegir la dificultad inicial.
+- Doce historias breves con preguntas de comprensión y doce ejercicios de vocabulario inglés. Las misiones se pueden practicar independientemente del juego.
+- Un recorrido dura hasta 30 segundos. Tres golpes consumen la energía. Resolver un reto permite recuperarla; resolver el reto de fin de recorrido abre el siguiente nivel.
+- Flechas, A/D, botones grandes y deslizamiento horizontal. Pausa manual y automática al ocultar la pestaña.
+- Tras 10 minutos de aventura se invita a descansar al terminar la siguiente misión.
+- Progreso agregado en `localStorage`, solo en ese navegador; no hay sincronización entre dispositivos. Borrar los datos del sitio borra el progreso. El espacio de familia no tiene autenticación.
+- No hay anuncios, analítica, fuentes remotas, cuentas ni API externas. La lectura en voz alta usa las voces del navegador y su disponibilidad/conectividad depende del dispositivo.
+- Manifest y service worker para uso instalable cuando el navegador lo admita y funcionamiento sin conexión después de la primera carga. La instalación requiere HTTPS (o localhost para desarrollo). La publicación web es un paso independiente y todavía no se ha realizado.
+
+## Entorno de desarrollo
+
+Usa el checkout existente en `/workspace/Aprende`: cada tarea cloud está aislada y no hace falta crear otro worktree. Los procesos no sobreviven necesariamente a una nueva tarea; vuelve a ejecutar `npm start`. Si cambian los archivos precargados, actualiza la versión de caché en `public/sw.js`. Las voces y la instalación en dispositivos reales deben comprobarse en el dispositivo elegido.

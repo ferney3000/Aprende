@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#214e45">
+  <meta name="description" content="Pequeñas aventuras para jugar, leer y descubrir con Santiago.">
+  <title>Las aventuras de Santiago</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#inicio" aria-label="Las aventuras de Santiago, inicio"><span class="brand-icon">✦</span><span>pequeño<br><strong>explorador.</strong></span></a>
+    <p class="nav-label">MI AVENTURA</p>
+    <nav aria-label="Navegación principal">
+      <a class="nav-item active" href="#inicio"><span>⌂</span> Mi mundo</a>
+      <a class="nav-item" href="#misiones"><span>⚑</span> Misiones</a>
+      <button class="nav-item" id="progress-open"><span>☆</span> Mis logros</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="companion"><span class="fox">🦊</span><strong>Un poquito cada día.</strong><p>¡Las grandes aventuras empiezan con pequeños pasos!</p></div><button class="nav-item" id="family-open"><span>⚙</span> Espacio de familia</button><span class="sidebar-note">Hecho para aprender jugando</span></div>
+  </aside>
+  <main id="inicio">
+    <header class="topbar"><span>UN MUNDO POR DESCUBRIR</span><div class="profile"><span class="star-pill">★ <b id="total-stars">0</b></span><span class="avatar">S</span><strong>Santiago</strong></div></header>
+    <section class="welcome"><div><p class="eyebrow">¡HOLA, EXPLORADOR! <span>☀</span></p><h1>Hoy será una gran aventura<span>.</span></h1><p>Juega, descubre y aprende algo nuevo. A tu ritmo.</p></div><span class="day-badge">🌱 Cada intento cuenta</span></section>
+    <section class="hero" aria-labelledby="adventure-title">
+      <div class="hero-copy"><span class="chapter">✦ TU AVENTURA · NIVEL <span id="level">1</span></span><h2 id="adventure-title">El bosque de<br>las estrellas</h2><p>¡El bosque necesita tu ayuda! Pilota tu nave, recoge estrellas y enciende tu imaginación.</p><button class="primary" id="play">¡Vamos a jugar! <span>→</span></button><div class="hero-meta"><span>✧ Explora</span><span>♡ Aprende</span><span>★ Brilla</span></div></div>
+      <img class="hero-art" src="/forest.svg" alt="Una pequeña nave naranja explora un bosque de árboles redondos y estrellas doradas">
+      <span class="art-label">Un pequeño viaje. Un gran descubrimiento.</span>
+    </section>
+    <section class="journey" aria-label="Tu progreso"><div class="journey-icon">⚑</div><div class="journey-copy"><strong>Tu siguiente descubrimiento</strong><span id="journey-text">Completa 3 misiones y gana tu primera insignia.</span></div><div class="journey-track"><div><span id="mission-count">0 de 3 misiones</span><span>✦</span></div><progress id="mission-progress" max="3" value="0"></progress></div></section>
+    <section id="misiones" class="missions"><div class="section-heading"><div><p class="eyebrow">PEQUEÑOS RETOS, GRANDES IDEAS</p><h2>¿Qué descubrimos hoy?</h2></div><span>Elige una misión para practicar</span></div><div class="subject-grid">
+      <button class="subject math" data-subject="math"><span class="subject-icon">1<span>2</span>3</span><span class="subject-tag">JUEGA CON LOS NÚMEROS</span><strong>Laboratorio de sumas</strong><span>Cuenta, piensa y encuentra la respuesta.</span><span class="subject-footer">Matemáticas <b>→</b></span></button>
+      <button class="subject reading" data-subject="reading"><span class="subject-icon">Aa<span>✧</span></span><span class="subject-tag">CADA PALABRA, UN MUNDO</span><strong>Historias por descubrir</strong><span>Lee pequeñas historias y sigue las pistas.</span><span class="subject-footer">Lectura <b>→</b></span></button>
+      <button class="subject english" data-subject="english"><span class="subject-icon">Hi<span>!</span></span><span class="subject-tag">HELLO, NUEVAS PALABRAS</span><strong>Mi primera expedición</strong><span>Descubre colores, animales y números.</span><span class="subject-footer">Inglés <b>→</b></span></button>
+    </div></section>
+    <footer><span>♡ Aquí aprendemos intentando, no compitiendo.</span><span>Una aventura de 10 minutos también es una gran aventura.</span></footer>
+    <p id="storage-notice" class="notice" hidden>El navegador no permite guardar el progreso. Puedes seguir jugando en esta sesión.</p>
+  </main>
+  <dialog id="adventure-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span class="eyebrow" id="dialog-label">EL BOSQUE DE LAS ESTRELLAS</span><button class="icon-button" id="close-adventure" aria-label="Cerrar aventura">✕</button></div><div id="adventure-content"></div></dialog>
+  <dialog id="family-dialog" aria-labelledby="family-title"><div class="dialog-top"><span class="eyebrow">ACOMPAÑAR SU AVENTURA</span><button class="icon-button" id="close-family" aria-label="Cerrar espacio de familia">✕</button></div><h2 id="family-title">Espacio de familia</h2><p>Un vistazo a lo que Santiago está practicando. Sin notas ni comparaciones.</p><div id="family-stats"></div><label class="setting" for="difficulty">Sumas: dificultad inicial<select id="difficulty"><option value="0">Resultados hasta 10</option><option value="1">Resultados hasta 20</option><option value="2">Resultados hasta 50</option></select></label><p class="small">La dificultad sube tras 3 sumas resueltas al primer intento y baja si necesita varios intentos. Siempre puede pedir una pista.</p><div class="privacy-note">🔒 El progreso se guarda solo en este navegador. No hay cuentas, anuncios ni datos enviados a un servidor. Cada dispositivo guarda su propio progreso.</div><button class="secondary" id="install-help">Cómo usarla como una aplicación</button><p id="install-instructions" class="small" hidden>Cuando la web esté publicada con HTTPS, abre el menú del navegador y busca “Instalar aplicación” o “Añadir a pantalla de inicio”. En iPhone o iPad, usa Compartir → Añadir a pantalla de inicio. Tras abrirla una vez, el juego puede funcionar sin conexión. Las voces dependen del dispositivo.</p></dialog>
+  <dialog id="progress-dialog" aria-labelledby="progress-title"><div class="dialog-top"><span class="eyebrow">CADA PASO ES UN LOGRO</span><button class="icon-button" id="close-progress" aria-label="Cerrar logros">✕</button></div><h2 id="progress-title">¡Mira cuánto has explorado!</h2><div id="badges"></div><p>Sigue descubriendo. Aquí no hay prisa.</p></dialog>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

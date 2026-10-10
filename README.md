@@ -13,6 +13,22 @@ npm start
 
 El servidor usa el puerto 3000, configurable con `PORT`. Sirve exclusivamente la carpeta `public`. Se puede desplegar esa carpeta directamente en cualquier alojamiento web estático con HTTPS. No hay paso de compilación.
 
+## Publicar en Netlify desde GitHub
+
+Esta opción permite publicar las mejoras al actualizar la rama `principal`, sin descargar y subir un ZIP cada vez.
+
+1. Entra a https://app.netlify.com/ con tu cuenta.
+2. Elige importar un proyecto existente desde GitHub y autoriza el acceso al repositorio `ferney3000/Aprende`.
+3. Selecciona el repositorio y la rama `principal`.
+4. Netlify leerá `netlify.toml`: la carpeta a publicar es `public` y no hace falta un comando de compilación.
+5. Publica el proyecto y abre la dirección HTTPS que Netlify le asigne.
+
+Si ya creaste un sitio arrastrando la carpeta, puedes vincular ese mismo sitio al repositorio desde su configuración de despliegue continuo. Mantener la misma dirección también conserva el progreso de ese navegador; una dirección nueva tiene su propio almacenamiento.
+
+Después de publicar, comprueba en el celular o tablet: abrir la aventura, mover la nave, resolver una misión, cerrar y volver a abrir para comprobar el progreso. Para poner un icono en la pantalla de inicio, usa el menú del navegador (en iPhone o iPad: Compartir → Añadir a pantalla de inicio). La primera carga necesita conexión.
+
+La configuración del repositorio no crea una cuenta ni publica por sí sola. La conexión inicial con Netlify debe realizarla el propietario desde su cuenta. El ZIP `aventuras-de-santiago.zip` sigue disponible como alternativa para subir manualmente su carpeta `santiago`.
+
 ## Validar
 
 ```sh

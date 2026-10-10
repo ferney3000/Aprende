@@ -1,0 +1,12 @@
+[build]
+  command = ""
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "24"
+  NPM_FLAGS = "--omit=dev --ignore-scripts"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

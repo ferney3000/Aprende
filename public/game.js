@@ -32,14 +32,24 @@ export function step(game, seconds, rng = Math.random) {
   else if (game.elapsed >= getLevel(game.level).duration) game.status = 'retry';
 }
 export function drawGame(canvas, game) {
+  // Match the drawing surface to its displayed size so the car keeps its
+  // proportions on both narrow phones and wide desktop screens.
+  const bounds = canvas.getBoundingClientRect();
+  const pixelRatio = window.devicePixelRatio || 1;
+  const w = bounds.width, h = bounds.height;
+  const width = Math.round(w * pixelRatio), height = Math.round(h * pixelRatio);
+  if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
   const ctx = canvas.getContext('2d');
-  const w = canvas.width, h = canvas.height;
+  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   const { scene, colors } = getLevel(game.level);
   ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = colors[0]; ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = colors[1]; ctx.beginPath(); ctx.ellipse(w / 2, h / 2, w * .40, h, 0, 0, Math.PI * 2); ctx.fill();
-  ctx.strokeStyle = colors[2]; ctx.lineWidth = 2; ctx.setLineDash([8, 14]);
-  for (let i = 1; i < 3; i++) { const x = w * (.18 + .64 * i / 3); ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); } ctx.setLineDash([]);
+  ctx.fillStyle = colors[1]; ctx.fillRect(w * .13, 0, w * .74, h);
+  ctx.fillStyle = ['night', 'cave'].includes(scene) ? '#414858' : '#59645e'; ctx.fillRect(w * .17, 0, w * .66, h);
+  ctx.strokeStyle = '#f5ecd6'; ctx.lineWidth = 3;
+  for (const edge of [.175, .825]) { ctx.beginPath(); ctx.moveTo(w * edge, 0); ctx.lineTo(w * edge, h); ctx.stroke(); }
+  ctx.strokeStyle = '#f5ecd680'; ctx.lineWidth = 2; ctx.setLineDash([20, 22]); ctx.lineDashOffset = -game.elapsed * 80;
+  for (let i = 1; i < 3; i++) { const x = w * (.18 + .64 * i / 3); ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); } ctx.setLineDash([]); ctx.lineDashOffset = 0;
   for (let i = 0; i < 10; i++) {
     const x = i % 2 ? w * .92 : w * .08, y = ((i * 99 + game.elapsed * 35) % (h + 90)) - 45;
     ctx.fillStyle = colors[2];
@@ -81,8 +91,19 @@ export function drawGame(canvas, game) {
   }
   const x = laneX(game.lane), y = h * .8;
   ctx.save(); ctx.translate(x, y); if (game.invincible > 0) ctx.globalAlpha = .65;
-  ctx.fillStyle = '#e9be66'; ctx.beginPath(); ctx.moveTo(-9, 22); ctx.lineTo(0, 42 + Math.sin(game.elapsed * 20) * 6); ctx.lineTo(9, 22); ctx.fill();
-  ctx.fillStyle = '#b57252'; ctx.beginPath(); ctx.moveTo(-11, -8); ctx.lineTo(-28, 22); ctx.lineTo(28, 22); ctx.lineTo(11, -8); ctx.fill();
-  ctx.fillStyle = '#e79f69'; ctx.beginPath(); ctx.moveTo(0, -34); ctx.bezierCurveTo(-29, -13, -18, 25, -13, 26); ctx.lineTo(13, 26); ctx.bezierCurveTo(18, 25, 29, -13, 0, -34); ctx.fill();
-  ctx.fillStyle = '#fff0cb'; ctx.beginPath(); ctx.arc(0, -4, 11, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#527e77'; ctx.beginPath(); ctx.arc(0, -4, 7, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+  const rounded = (left, top, width, height, radius, color) => { ctx.fillStyle = color; ctx.beginPath(); ctx.roundRect(left, top, width, height, radius); ctx.fill(); };
+  rounded(-24, -32, 52, 74, 15, '#00000026');
+  for (const left of [-26, 19]) for (const top of [-23, 15]) rounded(left, top, 7, 16, 3, '#26322e');
+  rounded(-21, -36, 42, 74, 12, '#af302f');
+  rounded(-20, -36, 40, 69, 11, '#e34d46');
+  rounded(-14, -31, 28, 20, 5, '#ef6457');
+  rounded(-3, -34, 6, 22, 1, '#fff0ce');
+  ctx.fillStyle = '#c8e9e5'; ctx.beginPath(); ctx.moveTo(-14, -10); ctx.lineTo(14, -10); ctx.lineTo(11, 2); ctx.lineTo(-11, 2); ctx.closePath(); ctx.fill();
+  rounded(-12, 3, 24, 19, 5, '#cf3c37');
+  ctx.fillStyle = '#fff0ce'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('S', 0, 17);
+  rounded(-12, 23, 24, 7, 2, '#8bb9b3');
+  for (const left of [-17, 9]) rounded(left, -33, 8, 5, 2, '#fff4ba');
+  for (const left of [-17, 10]) rounded(left, 30, 7, 4, 1, '#ffce85');
+  rounded(-15, 35, 30, 3, 1, '#efe1cc');
+  ctx.restore();
 }

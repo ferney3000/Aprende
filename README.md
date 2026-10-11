@@ -1,10 +1,10 @@
 # Las aventuras de Santiago
 
-Aplicación web para jugar y aprender con una aventura completa de 10 niveles: una nave recorre el bosque, recoge estrellas, acompaña luciérnagas y evita rocas. Cada nivel tiene su propio escenario, objetivo y reto educativo. Los errores muestran pistas y no quitan estrellas.
+Aplicación web para jugar y aprender con una aventura completa de 10 niveles: el carro rojo de Santiago recorre el bosque por una pista de tres carriles, recoge estrellas, acompaña luciérnagas y evita rocas. Cada nivel tiene su propio escenario, objetivo y reto educativo. Los errores muestran pistas y no quitan estrellas.
 
 ## Los 10 niveles
 
-| Nivel | Lugar | Objetivo del vuelo | Reto educativo |
+| Nivel | Lugar | Objetivo del recorrido | Reto educativo |
 | --- | --- | --- | --- |
 | 1 | El claro de bienvenida | Explorar durante 20 segundos | Sumas hasta 10 |
 | 2 | El río brillante | Recoger 4 estrellas | Localizar información en una historia |
@@ -17,7 +17,7 @@ Aplicación web para jugar y aprender con una aventura completa de 10 niveles: u
 | 9 | La montaña del eco | Acompañar 6 luciérnagas | Comprender una frase en inglés |
 | 10 | El gran árbol de la luz | Recoger 6 estrellas y acompañar 3 luciérnagas | Problema hasta 30, comprensión de lectura e inglés |
 
-Se desbloquea el siguiente nivel al cumplir el objetivo y resolver todos sus retos. Si se acaba el tiempo sin cumplir el objetivo, un ejercicio permite repetir el vuelo. Si se pierde la energía, un ejercicio permite recuperarla. Desde el nivel 5 aparecen corazones que recargan energía. Los niveles completados se pueden repetir; la aventura termina en el 10 con una insignia, sin crear niveles adicionales.
+Se desbloquea el siguiente nivel al cumplir el objetivo y resolver todos sus retos. Si se acaba el tiempo sin cumplir el objetivo, un ejercicio permite repetir el recorrido. Si se pierde la energía, un ejercicio permite recuperarla. Desde el nivel 5 aparecen corazones que recargan energía. Los niveles completados se pueden repetir; la aventura termina en el 10 con una insignia, sin crear niveles adicionales.
 
 Las estrellas, las prácticas y los niveles de la versión anterior se conservan. El avance anterior se adapta a un máximo de 9 niveles completados para que el gran árbol siempre tenga que completarse en esta versión. La migración se guarda con la siguiente respuesta o actualización del progreso.
 
@@ -44,7 +44,7 @@ Esta opción permite publicar las mejoras al actualizar la rama `principal`, sin
 
 Si ya creaste un sitio arrastrando la carpeta, puedes vincular ese mismo sitio al repositorio desde su configuración de despliegue continuo. Mantener la misma dirección también conserva el progreso de ese navegador; una dirección nueva tiene su propio almacenamiento.
 
-Después de publicar, comprueba en el celular o tablet: abrir la aventura, mover la nave, resolver una misión, cerrar y volver a abrir para comprobar el progreso. Para poner un icono en la pantalla de inicio, usa el menú del navegador (en iPhone o iPad: Compartir → Añadir a pantalla de inicio). La primera carga necesita conexión.
+Después de publicar, comprueba en el celular o tablet: abrir la aventura, mover el carro, resolver una misión, cerrar y volver a abrir para comprobar el progreso. Para poner un icono en la pantalla de inicio, usa el menú del navegador (en iPhone o iPad: Compartir → Añadir a pantalla de inicio). La primera carga necesita conexión.
 
 La configuración del repositorio no crea una cuenta ni publica por sí sola. La conexión inicial con Netlify debe realizarla el propietario desde su cuenta. El ZIP `aventuras-de-santiago.zip` sigue disponible como alternativa para subir manualmente su carpeta `santiago`.
 
